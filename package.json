@@ -6,14 +6,16 @@
   "main": "index.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "lint": "eslint src tests"
+    "lint": "eslint src tests",
+    "test:ci": "JEST_JUNIT_OUTPUT_DIR=reports/junit JEST_JUNIT_OUTPUT_NAME=junit.xml node --experimental-vm-modules node_modules/jest/bin/jest.js --ci --coverage --reporters=default --reporters=jest-junit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^10.12.0",
-    "jest": "^30.5.2"
+    "jest": "^30.5.2",
+    "jest-junit": "^17.0.0"
   },
   "directories": {
     "test": "tests"

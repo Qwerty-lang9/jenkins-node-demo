@@ -22,15 +22,22 @@ pipeline {
             }
         }
 
-stage('Lint') {
-    steps {
-        sh 'npm run lint'
-    }
-}
-
-        stage('Run Tests') {
+        stage('Lint') {
             steps {
-                sh 'npm test'
+                sh 'npm run lint'
+            }
+        }
+
+        stage('Tests') {
+            steps {
+                sh 'npm run test:ci'
+            }
+
+            post {
+                always {
+                    junit testResults: 'reports/junit/junit.xml',
+                          allowEmptyResults: true
+                }
             }
         }
     }
