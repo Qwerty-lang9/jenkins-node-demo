@@ -5,12 +5,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
-},
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint src tests"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^10.12.0",
     "jest": "^30.5.2"
   },
   "directories": {
