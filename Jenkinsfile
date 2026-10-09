@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -6,26 +5,10 @@ pipeline {
         nodejs 'NodeJS-26'
     }
 
-    options {
-        timestamps()
-        disableConcurrentBuilds()
-    }
-
     stages {
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Environment') {
             steps {
-                sh '''
-                    echo "Checking Node.js environment..."
-                    node --version
-                    npm --version
-                '''
+                sh 'node --version'
             }
         }
 
@@ -61,26 +44,26 @@ pipeline {
                 sh 'npm run build'
             }
         }
-    }
 
         stage('Package Artifact') {
-    steps {
-        sh '''
-            rm -rf artifacts
-            mkdir -p artifacts
+            steps {
+                sh '''
+                    rm -rf artifacts
+                    mkdir -p artifacts
 
-            SHORT_SHA=$(git rev-parse --short HEAD)
+                    SHORT_SHA=$(git rev-parse --short HEAD)
 
-            tar -czf "artifacts/node-demo-${BUILD_NUMBER}-${SHORT_SHA}.tar.gz" \
-                dist package.json package-lock.json
-        '''
+                    tar -czf "artifacts/node-demo-${BUILD_NUMBER}-${SHORT_SHA}.tar.gz" \
+                        dist package.json package-lock.json
+                '''
 
-        archiveArtifacts(
-            artifacts: 'artifacts/*.tar.gz',
-            fingerprint: true
-        )
+                archiveArtifacts(
+                    artifacts: 'artifacts/*.tar.gz',
+                    fingerprint: true
+                )
+            }
+        }
     }
-}
 
     post {
         success {
@@ -97,3 +80,4 @@ pipeline {
     }
 }
 
+         
