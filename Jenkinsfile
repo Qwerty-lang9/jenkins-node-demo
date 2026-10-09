@@ -63,6 +63,25 @@ pipeline {
         }
     }
 
+        stage('Package Artifact') {
+    steps {
+        sh '''
+            rm -rf artifacts
+            mkdir -p artifacts
+
+            SHORT_SHA=$(git rev-parse --short HEAD)
+
+            tar -czf "artifacts/node-demo-${BUILD_NUMBER}-${SHORT_SHA}.tar.gz" \
+                dist package.json package-lock.json
+        '''
+
+        archiveArtifacts(
+            artifacts: 'artifacts/*.tar.gz',
+            fingerprint: true
+        )
+    }
+}
+
     post {
         success {
             echo 'PIPELINE SUCCESSFUL!'
